@@ -1,36 +1,29 @@
 language: php
-
-php: 
-  - 5.4
-  - 5.5
-  - 5.6
-
+php:
+- 5.4
+- 5.5
+- 5.6
 matrix:
-  allow_failures:
-    - php: 5.5
-    - php: 5.6
-
+allow_failures:
+- php: 5.5
+- php: 5.6
 archive: true
-
 services:
-  - mongodb
-
-before_script: 
-  - mkdir -p shippable/testresults
-  - mkdir -p shippable/codecoverage
-  - echo "extension=mongo.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-  - echo "xdebug.max_nesting_level = 1000" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-  - composer self-update
-  - composer install --prefer-source --no-interaction --dev
-  
+- mongodb
+before_script:
+- mkdir -p shippable/testresults
+- mkdir -p shippable/codecoverage
+- echo "extension=mongo.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+- echo "xdebug.max_nesting_level = 1000" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+- composer self-update
+- composer install --prefer-source --no-interaction --dev
 script:
-  - phpunit --log-junit shippable/testresults/junit.xml --coverage-xml shippable/codecoverage tests/Zoop/ShardModule/Test/ConfigMergeListenerTest.php
- # - phpunit --log-junit shippable/testresults/junit.xml --coverage-xml shippable/codecoverage tests/calculator_test.php
-  #- php build/coverage-checker.php shippable/codecoverage/clover.xml 79
-  #- vendor/bin/phpcs --standard=PSR2 src/ tests/Zoop/
-  #- vendor/bin/phpmd src/ text ruleset.xml
-  
+- phpunit --log-junit shippable/testresults/junit.xml --coverage-xml shippable/codecoverage/coverage.xml tests/
+#- phpunit --log-junit shippable/testresults/junit.xml --coverage-clover shippable/codecoverage/clover.xml tests/
+#- php build/coverage-checker.php shippable/codecoverage/clover.xml 79
+#- vendor/bin/phpcs --standard=PSR2 src/ tests/Zoop/
+#- vendor/bin/phpmd src/ text ruleset.xml
 notifications:
-   email: false
+email: false
 
-cache: true
+cache:true
