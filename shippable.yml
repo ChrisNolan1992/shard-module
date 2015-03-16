@@ -32,3 +32,5 @@ script:
   
 notifications:
    email: false
+
+cache: true
